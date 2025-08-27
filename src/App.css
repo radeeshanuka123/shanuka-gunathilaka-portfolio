@@ -190,6 +190,30 @@ span.navbar-text {
 	height: 100%;
 	position: absolute;
 }
+
+/* Enhanced button animations */
+.banner-button {
+  color: #fff;
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 60px;
+  letter-spacing: 0.8px;
+  display: flex;
+  align-items: center;
+  background: transparent;
+  border: 1px solid #fff;
+  padding: 18px 34px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.banner-button:hover {
+  background: #fff;
+  color: #121212;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(255,255,255,0.2);
+}
+
 nav.navbar .navbar-toggler:active,
 nav.navbar .navbar-toggler:focus {
 	outline: none;
@@ -339,6 +363,11 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 .skill-slider .item img {
   width: 50%;
   margin: 0 auto 15px auto;
+  transition: all 0.3s ease;
+}
+
+.skill-slider .item:hover img {
+  filter: drop-shadow(0 0 20px rgba(170, 54, 124, 0.6));
 }
 .background-image-left {
   top: 28%;
@@ -465,6 +494,18 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   font-size: 15px;
   letter-spacing: 0.8px;
 }
+
+/* Enhanced project card animations */
+.proj-imgbx {
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform-origin: center;
+}
+
+.proj-imgbx:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(170, 54, 124, 0.3);
+}
+
 .background-image-right {
   top: 20%;
   position: absolute;
@@ -634,6 +675,11 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 
 .technology-name {
   font-size: 1.2rem;
+  transition: color 0.3s ease;
+}
+
+.technology-item:hover .technology-name {
+  color: #AA367C;
 }
 
 .row > .col-md-6 {
