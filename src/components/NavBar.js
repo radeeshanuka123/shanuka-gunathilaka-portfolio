@@ -1,36 +1,31 @@
-import { useState, useEffect } from "react";
-import { Navbar, Nav, Container } from "react-bootstrap";
-import { motion } from "framer-motion";
-import logo from '../assets/img/logo.svg';
-import navIcon1 from '../assets/img/nav-icon1.svg';
-import navIcon2 from '../assets/img/nav-icon2.svg';
-import navIcon3 from '../assets/img/nav-icon3.svg';
-import { HashLink } from 'react-router-hash-link';
-import {
-  BrowserRouter as Router
-} from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 
-export const NavBar = () => {
-  const [activeLink, setActiveLink] = useState('home');
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => {
-      if (window.scrollY > 50) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    }
+    const handleScroll = () => {
+      const isScrolled = window.scrollY > 50;
+      setScrolled(isScrolled);
+    };
 
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [])
-
-  const onUpdateActiveLink = (value) => {
-    setActiveLink(value);
-  }
+  const navItems = [
+    { name: 'Home', href: '#home' },
+    { name: 'About', href: '#about' },
+    { name: 'Skills', href: '#skills' },
+    { name: 'Experience', href: '#experience' },
+    { name: 'Projects', href: '#projects' },
+    { name: 'Services', href: '#services' },
+    { name: 'Blog', href: '#blog' },
+    { name: 'Contact', href: '#contact' },
+  ];
 
   const navVariants = {
     hidden: { y: -100, opacity: 0 },
@@ -44,139 +39,149 @@ export const NavBar = () => {
     }
   };
 
-  const logoVariants = {
-    hover: {
-      scale: 1.1,
+  const mobileMenuVariants = {
+    hidden: { opacity: 0, x: "100%" },
+    visible: {
+      opacity: 1,
+      x: 0,
       transition: {
         duration: 0.3,
-        yoyo: Infinity
-      }
-    }
-  };
-
-  const linkVariants = {
-    hover: {
-      scale: 1.1,
-      color: "#fff",
-      transition: {
-        duration: 0.2
-      }
-    }
-  };
-
-  const socialIconVariants = {
-    hover: {
-      scale: 1.2,
-      rotate: 360,
-      transition: {
-        duration: 0.3
-      }
-    }
-  };
-
-  const buttonVariants = {
-    hover: {
-      scale: 1.05,
-      boxShadow: "0px 0px 20px rgba(255,255,255,0.3)",
-      transition: {
-        duration: 0.3
+        ease: "easeOut"
       }
     },
-    tap: {
-      scale: 0.95
+    exit: {
+      opacity: 0,
+      x: "100%",
+      transition: {
+        duration: 0.3,
+        ease: "easeIn"
+      }
     }
   };
 
   return (
-    <Router>
-      <motion.div
-        variants={navVariants}
-        initial="hidden"
-        animate="visible"
-      >
-        <Navbar expand="md" className={scrolled ? "scrolled" : ""}>
-          <Container>
-            <Navbar.Brand href="/">
-              <motion.h2 
-                className="logo"
-                variants={logoVariants}
-                whileHover="hover"
-              > 
-                Shanuka Radeeshan 
-              </motion.h2>   
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav">
-              <span className="navbar-toggler-icon"></span>
-            </Navbar.Toggle>
-            <Navbar.Collapse id="basic-navbar-nav">
-              <Nav className="ms-auto">
-                <motion.div variants={linkVariants} whileHover="hover">
-                  <Nav.Link 
-                    href="#home" 
-                    className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} 
-                    onClick={() => onUpdateActiveLink('home')}
-                  >
-                    Home
-                  </Nav.Link>
-                </motion.div>
-                <motion.div variants={linkVariants} whileHover="hover">
-                  <Nav.Link 
-                    href="#skills" 
-                    className={activeLink === 'skills' ? 'active navbar-link' : 'navbar-link'} 
-                    onClick={() => onUpdateActiveLink('skills')}
-                  >
-                    Skills
-                  </Nav.Link>
-                </motion.div>
-                <motion.div variants={linkVariants} whileHover="hover">
-                  <Nav.Link 
-                    href="#projects" 
-                    className={activeLink === 'projects' ? 'active navbar-link' : 'navbar-link'} 
-                    onClick={() => onUpdateActiveLink('projects')}
-                  >
-                    Projects
-                  </Nav.Link>
-                </motion.div>
-              </Nav>
-              <span className="navbar-text">
-                <div className="social-icon">
-                  <motion.a 
-                    href="https://www.linkedin.com/in/shanuka-gunathilaka-6509212b1"
-                    variants={socialIconVariants}
-                    whileHover="hover"
-                  >
-                    <img src={navIcon1} alt="LinkedIn" />
-                  </motion.a>
-                  <motion.a 
-                    href="https://www.facebook.com/profile.php?id=61551619196495"
-                    variants={socialIconVariants}
-                    whileHover="hover"
-                  >
-                    <img src={navIcon2} alt="Facebook" />
-                  </motion.a>
-                  <motion.a 
-                    href="https://www.instagram.com/radeeshanuka?igsh=MXJnMzkwYTdpdHB6cw=="
-                    variants={socialIconVariants}
-                    whileHover="hover"
-                  >
-                    <img src={navIcon3} alt="Instagram" />
-                  </motion.a>
-                </div>
-                <HashLink to='#connect'>
-                  <motion.button 
-                    className="vvd"
-                    variants={buttonVariants}
-                    whileHover="hover"
-                    whileTap="tap"
-                  >
-                    <span>Let's Connect</span>
-                  </motion.button>
-                </HashLink>
-              </span>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar>
-      </motion.div>
-    </Router>
-  )
-}
+    <motion.nav
+      variants={navVariants}
+      initial="hidden"
+      animate="visible"
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-dark-900/90 backdrop-blur-md border-b border-white/10' 
+          : 'bg-transparent'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <motion.div
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex-shrink-0"
+          >
+            <a href="#home" className="text-2xl font-bold gradient-text">
+              Alex Johnson
+            </a>
+          </motion.div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden md:block">
+            <div className="ml-10 flex items-baseline space-x-4">
+              {navItems.map((item, index) => (
+                <motion.a
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200 relative group"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                >
+                  {item.name}
+                  <span className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-200"></span>
+                </motion.a>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA Button */}
+          <motion.div
+            className="hidden md:block"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <a
+              href="#contact"
+              className="btn-primary"
+            >
+              Let's Talk
+            </a>
+          </motion.div>
+
+          {/* Mobile menu button */}
+          <div className="md:hidden">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-gray-400 hover:text-white focus:outline-none focus:text-white"
+            >
+              {isOpen ? (
+                <XMarkIcon className="h-6 w-6" />
+              ) : (
+                <Bars3Icon className="h-6 w-6" />
+              )}
+            </motion.button>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Navigation */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            variants={mobileMenuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            className="md:hidden fixed top-16 right-0 w-64 h-screen bg-dark-900/95 backdrop-blur-md border-l border-white/10"
+          >
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+              {navItems.map((item, index) => (
+                <motion.a
+                  key={item.name}
+                  href={item.href}
+                  className="text-gray-300 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200"
+                  onClick={() => setIsOpen(false)}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ x: 10 }}
+                >
+                  {item.name}
+                </motion.a>
+              ))}
+              <motion.div
+                className="pt-4"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: navItems.length * 0.1 }}
+              >
+                <a
+                  href="#contact"
+                  className="btn-primary block text-center"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Let's Talk
+                </a>
+              </motion.div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.nav>
+  );
+};
+
+export default Navbar;
