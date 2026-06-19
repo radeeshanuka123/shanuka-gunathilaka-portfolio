@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /messages/{document} {
+      allow read: if false; // Only admin can read
+      allow create: if true; // Anyone can submit a message
+      allow update, delete: if false;
+    }
+  }
+}
