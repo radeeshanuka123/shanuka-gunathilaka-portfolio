@@ -1,78 +1,70 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { CheckCircle2 } from "lucide-react";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Card } from "@/components/ui/Card";
 import { portfolioData } from "@/data/portfolioData";
 
 export default function Expertise() {
-  const { expertise } = portfolioData;
-
-  const categories = [
-    { id: "frontend", title: "Frontend Development", items: expertise.frontend },
-    { id: "backend", title: "Backend Development", items: expertise.backend },
-    { id: "programming", title: "Programming Languages", items: expertise.programming },
-    { id: "databases", title: "Databases & Cloud", items: expertise.databases },
-    { id: "tools", title: "Tools & Technologies", items: expertise.tools },
-    { id: "teaching", title: "Teaching & Mentoring", items: expertise.teaching },
-  ];
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 }
-    }
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 },
+    },
   };
 
   return (
-    <section id="expertise" className="py-20 bg-bg-secondary">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-text-main mb-4">Areas of Expertise</h2>
-            <div className="w-16 h-1 bg-accent-primary mx-auto rounded-full"></div>
-          </motion.div>
+    <section id="expertise" className="py-24 bg-secondary/30 relative">
+      <div className="container mx-auto px-6 max-w-7xl">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.55 }}
+        >
+          <SectionHeading title="Technical Expertise" subtitle="Skills" />
+        </motion.div>
 
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {categories.map((category) => (
-              <motion.div 
-                key={category.id} 
-                variants={itemVariants}
-                className="bg-card p-6 rounded-xl shadow-sm border border-black/5 dark:border-white/5 hover:shadow-md transition-shadow"
-              >
-                <h3 className="text-xl font-bold text-text-main mb-4 pb-2 border-b border-bg-secondary">
-                  {category.title}
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {category.items.map((item, idx) => (
-                    <span 
-                      key={idx}
-                      className="text-sm font-medium bg-bg-secondary text-text-secondary px-3 py-1.5 rounded-md border border-black/5 dark:border-white/5"
-                    >
-                      {item}
-                    </span>
-                  ))}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          {portfolioData.expertise.map((group) => (
+            <motion.div key={group.id} variants={itemVariants} className="flex">
+              <Card className="w-full flex flex-col bg-card/60">
+                <div className="mb-6 pb-4 border-b border-border-subtle">
+                  <h3 className="text-lg font-heading font-bold text-text-main">
+                    {group.category}
+                  </h3>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
+                <ul className="flex flex-col gap-3 flex-grow">
+                  {group.skills.map((skill, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-accent-primary shrink-0 mt-0.5" />
+                      <span className="text-text-muted text-sm">{skill}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

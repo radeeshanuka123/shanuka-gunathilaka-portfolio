@@ -1,13 +1,16 @@
 import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
-import Experience from "@/components/sections/Experience";
 import Expertise from "@/components/sections/Expertise";
 import Teaching from "@/components/sections/Teaching";
+import Experience from "@/components/sections/Experience";
+import Process from "@/components/sections/Process";
 import Projects from "@/components/sections/Projects";
 import Education from "@/components/sections/Education";
+import Certifications from "@/components/sections/Certifications";
+import GithubActivity from "@/components/sections/GithubActivity";
 import Contact from "@/components/sections/Contact";
-import Footer from "@/components/layout/Footer";
 
 export default function Home() {
   return (
@@ -16,11 +19,14 @@ export default function Home() {
       <main className="flex-grow">
         <Hero />
         <About />
-        <Experience />
         <Expertise />
-        <Teaching />
+        <Experience />
+        <Process />
         <Projects />
+        <Teaching />
         <Education />
+        <Certifications />
+        <GithubActivity />
         <Contact />
       </main>
       <Footer />

@@ -1,68 +1,85 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { Building2, Calendar, MapPin, CheckCircle2 } from "lucide-react";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Card } from "@/components/ui/Card";
+import { Badge } from "@/components/ui/Badge";
 import { portfolioData } from "@/data/portfolioData";
-import { Briefcase } from "lucide-react";
 
 export default function Experience() {
-  const { experience } = portfolioData;
-
   return (
-    <section id="experience" className="py-20 bg-bg-primary">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-text-main mb-4">Professional Experience</h2>
-            <div className="w-16 h-1 bg-accent-primary mx-auto rounded-full"></div>
-          </motion.div>
+    <section id="experience" className="py-24 bg-secondary/30 relative">
+      <div className="container mx-auto px-6 max-w-7xl">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.55 }}
+        >
+          <SectionHeading title="Work Experience" subtitle="Career Journey" />
+        </motion.div>
 
-          <div className="relative border-l-2 border-accent-primary/30 pl-8 ml-4 md:ml-0">
-            {experience.map((exp, index) => (
-              <motion.div
-                key={exp.id}
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="mb-12 relative"
-              >
-                {/* Timeline Dot */}
-                <div className="absolute -left-[41px] top-1.5 w-5 h-5 rounded-full bg-accent-primary shadow-[0_0_0_4px_var(--color-bg-primary)]"></div>
+        <div className="max-w-4xl mx-auto">
+          {portfolioData.experience.map((exp, index) => (
+            <motion.div
+              key={exp.id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.55, delay: index * 0.1 }}
+              className="relative pl-8 md:pl-0"
+            >
+              {/* Timeline Line (Desktop: center, Mobile: left) */}
+              <div className="hidden md:block absolute left-[50%] top-0 bottom-0 w-px bg-border-subtle -translate-x-1/2" />
+              <div className="md:hidden absolute left-0 top-0 bottom-0 w-px bg-border-subtle" />
+
+              <div className={`relative flex flex-col md:flex-row items-center justify-between mb-16 ${index % 2 === 0 ? "md:flex-row-reverse" : ""}`}>
                 
-                <div className="bg-card p-6 rounded-xl shadow-sm border border-black/5 dark:border-white/5 hover:shadow-md transition-shadow">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between mb-4">
-                    <div>
-                      <h3 className="text-xl font-bold text-text-main">{exp.role}</h3>
-                      <p className="text-accent-secondary font-medium flex items-center gap-2 mt-1">
-                        <Briefcase size={16} />
-                        {exp.company}
-                      </p>
+                {/* Timeline Dot */}
+                <div className="absolute left-[-37px] md:left-[50%] top-6 w-5 h-5 rounded-full bg-accent-primary border-4 border-primary z-10 md:-translate-x-1/2 shadow-sm" />
+
+                {/* Content Card */}
+                <div className={`w-full md:w-[45%] ${index % 2 === 0 ? "md:pl-8" : "md:pr-8"}`}>
+                  <Card className="hover:-translate-y-1 transition-transform duration-300">
+                    <h3 className="text-xl font-heading font-bold text-text-main mb-1">
+                      {exp.role}
+                    </h3>
+                    
+                    <div className="flex flex-wrap items-center gap-4 text-sm text-text-muted mb-4">
+                      <span className="flex items-center gap-1">
+                        <Building2 size={14} className="text-accent-primary" /> {exp.company}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Calendar size={14} className="text-accent-primary" /> {exp.period}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <MapPin size={14} className="text-accent-primary" /> {exp.location}
+                      </span>
                     </div>
-                    <div className="mt-2 md:mt-0 text-sm font-semibold bg-bg-secondary px-3 py-1 rounded-full text-text-secondary inline-block w-fit">
-                      {exp.period}
+
+                    <ul className="flex flex-col gap-2 mb-6">
+                      {exp.responsibilities.map((resp, i) => (
+                        <li key={i} className="flex items-start gap-3">
+                          <CheckCircle2 size={16} className="text-accent-secondary shrink-0 mt-1" />
+                          <span className="text-text-muted text-sm leading-relaxed">{resp}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="flex flex-wrap gap-2 pt-4 border-t border-border-subtle">
+                      {exp.tech.map((t, i) => (
+                        <Badge key={i} variant="secondary">{t}</Badge>
+                      ))}
                     </div>
-                  </div>
-                  
-                  <p className="text-text-main mb-4 font-medium">{exp.description}</p>
-                  
-                  <ul className="space-y-2">
-                    {exp.responsibilities.map((resp, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-text-secondary">
-                        <span className="text-accent-primary mt-1.5">•</span>
-                        <span>{resp}</span>
-                      </li>
-                    ))}
-                  </ul>
+                  </Card>
                 </div>
-              </motion.div>
-            ))}
-          </div>
+
+                {/* Empty space for alternating layout on desktop */}
+                <div className="hidden md:block w-[45%]" />
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

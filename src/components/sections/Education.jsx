@@ -1,54 +1,79 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { portfolioData } from "@/data/portfolioData";
 import { GraduationCap } from "lucide-react";
+import { SectionHeading } from "@/components/ui/SectionHeading";
+import { Card } from "@/components/ui/Card";
+import { Badge } from "@/components/ui/Badge";
+import { portfolioData } from "@/data/portfolioData";
 
 export default function Education() {
-  const { education } = portfolioData;
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 },
+    },
+  };
 
   return (
-    <section id="education" className="py-20 bg-bg-primary">
-      <div className="container mx-auto px-4 md:px-6">
-        <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-3xl md:text-4xl font-bold text-text-main mb-4">Education</h2>
-            <div className="w-16 h-1 bg-accent-primary mx-auto rounded-full"></div>
-          </motion.div>
+    <section id="education" className="py-24 relative">
+      <div className="container mx-auto px-6 max-w-7xl">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.55 }}
+        >
+          <SectionHeading title="Education" subtitle="Academic Background" />
+        </motion.div>
 
-          <div className="space-y-8">
-            {education.map((edu, index) => (
-              <motion.div
-                key={edu.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-card p-6 md:p-8 rounded-xl shadow-sm border border-black/5 dark:border-white/5 hover:shadow-md transition-shadow flex flex-col md:flex-row gap-6 items-start"
-              >
-                <div className="w-16 h-16 shrink-0 rounded-full bg-accent-primary/10 flex items-center justify-center text-accent-primary">
-                  <GraduationCap size={32} />
-                </div>
-                <div>
-                  <div className="flex flex-col md:flex-row md:items-center justify-between mb-2 gap-2">
-                    <h3 className="text-2xl font-bold text-text-main">{edu.degree}</h3>
-                    <span className="text-sm font-semibold bg-bg-secondary px-3 py-1 rounded-full text-text-secondary w-fit">
-                      {edu.period}
-                    </span>
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
+          {portfolioData.education.map((edu) => (
+            <motion.div key={edu.id} variants={itemVariants}>
+              <Card className="h-full flex flex-col hover:border-accent-primary/30">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="w-12 h-12 rounded-xl bg-accent-primary/10 flex items-center justify-center text-accent-primary shrink-0">
+                    <GraduationCap size={24} />
                   </div>
-                  <h4 className="text-lg text-accent-primary font-medium mb-3">{edu.institution}</h4>
-                  <p className="text-text-secondary">{edu.description}</p>
+                  <Badge variant={edu.status === "Completed" ? "success" : "secondary"}>
+                    {edu.status}
+                  </Badge>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+                
+                <h3 className="text-xl font-heading font-bold text-text-main mb-2">
+                  {edu.degree}
+                </h3>
+                <div className="text-sm font-medium text-accent-primary mb-1">
+                  {edu.institution}
+                </div>
+                <div className="text-sm text-text-muted mb-4 font-mono">
+                  {edu.period}
+                </div>
+                <p className="text-text-muted text-sm leading-relaxed mt-auto border-t border-border-subtle pt-4">
+                  {edu.description}
+                </p>
+              </Card>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

@@ -5,31 +5,48 @@
 @layer base {
   :root {
     --bg-primary: #F8FAFC;
-    --bg-secondary: #F1F5F9;
-    --card: #FFFFFF;
-    --accent-primary: #0284C7;
-    --accent-secondary: #4F46E5;
+    --bg-secondary: #FFFFFF;
+    --bg-card: rgba(255, 255, 255, 0.92);
     --text-main: #0F172A;
-    --text-secondary: #475569;
+    --text-muted: #526176;
+    --accent-primary: #0284C7;
+    --accent-secondary: #6366F1;
+    --success: #34D399;
+    --border-subtle: rgba(15, 23, 42, 0.10);
   }
 
   .dark {
     --bg-primary: #07111F;
-    --bg-secondary: #0D1B2A;
-    --card: #102033;
-    --accent-primary: #38BDF8;
-    --accent-secondary: #6366F1;
+    --bg-secondary: #0B1728;
+    --bg-card: rgba(15, 29, 48, 0.82);
     --text-main: #F8FAFC;
-    --text-secondary: #CBD5E1;
+    --text-muted: #AAB8CC;
+    --accent-primary: #38BDF8;
+    --accent-secondary: #818CF8;
+    --success: #34D399;
+    --border-subtle: rgba(148, 163, 184, 0.18);
   }
 }
 
-body {
-  @apply bg-bg-primary text-text-main transition-colors duration-300;
+@layer base {
+  body {
+    @apply bg-primary text-text-main font-sans antialiased transition-colors duration-300;
+  }
+  
+  /* Focus outlines for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-accent-primary ring-offset-2 ring-offset-primary transition-shadow rounded-sm;
+  }
 }
 
-html {
-  scroll-behavior: smooth;
+@layer utilities {
+  .glass {
+    @apply bg-card backdrop-blur-md border border-border-subtle;
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
 }
 
 /* Custom scrollbar */
@@ -37,11 +54,11 @@ html {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  @apply bg-bg-secondary;
+  @apply bg-primary;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-accent-primary rounded-full;
+  @apply bg-border-subtle rounded-full;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-accent-secondary;
+  @apply bg-text-muted;
 }
